@@ -1,7 +1,9 @@
+import Menu from './core/Menu';
+
 function App() {
   return (
     <div>
-      <h1>Heello World</h1>
+      <h1>hello world</h1>
     </div>
   );
 }

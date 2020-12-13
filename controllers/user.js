@@ -19,21 +19,43 @@ exports.read = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  User.findOneAndUpdate(
-    { _id: req.profile._id },
-    { $set: req.body },
-    { new: true },
+  // console.log('UPDATE USER - req.user', req.user, 'UPDATE DATA', req.body);
+  const { name, password } = req.body;
 
-    (err, user) => {
-      if (err) {
-        return res
-          .status(400)
-          .json({ err: 'You are not authorized to perform this action' });
+  User.findOne({ _id: req.profile._id }, (err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: 'User not found',
+      });
+    }
+    if (!name) {
+      return res.status(400).json({
+        error: 'Name is required',
+      });
+    } else {
+      user.name = name;
+    }
+
+    if (password) {
+      if (password.length < 6) {
+        return res.status(400).json({
+          error: 'Password should be min 6 characters long',
+        });
+      } else {
+        user.password = password;
       }
+    }
 
-      user.profile.hashed_password = undefined;
-      user.profile.salt = undefined;
-      res.json(user);
-    },
-  );
+    user.save((err, updatedUser) => {
+      if (err) {
+        console.log('USER UPDATE ERROR', err);
+        return res.status(400).json({
+          error: 'User update failed',
+        });
+      }
+      updatedUser.hashed_password = undefined;
+      updatedUser.salt = undefined;
+      res.json(updatedUser);
+    });
+  });
 };
