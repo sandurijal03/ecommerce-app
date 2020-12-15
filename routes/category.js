@@ -13,6 +13,7 @@ const { requiredSignin, isAdmin, isAuth } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 
 router.get('/category/:categoryId', read);
+
 router.post(
   '/category/create/:userId',
   requiredSignin,
@@ -20,6 +21,7 @@ router.post(
   isAdmin,
   create,
 );
+
 router.put(
   '/category/:categoryId/:userId',
   requiredSignin,
@@ -27,6 +29,7 @@ router.put(
   isAuth,
   update,
 );
+
 router.delete(
   '/category/:categoryId/:userId',
   requiredSignin,
@@ -34,6 +37,7 @@ router.delete(
   isAuth,
   remove,
 );
+
 router.get('/categories', list);
 
 router.param('categoryId', categoryById);
