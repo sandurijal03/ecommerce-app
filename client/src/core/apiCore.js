@@ -1,4 +1,4 @@
-import { castArray } from 'lodash';
+import querystring from 'querystring';
 
 export const getProducts = (sortBy) => {
   return fetch(
@@ -36,6 +36,17 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const list = (params) => {
+  const query = querystring.stringify(params);
+  return fetch(`http://localhost:4000/api/products/search?${query}`, {
+    method: 'GET',
   })
     .then((response) => {
       return response.json();

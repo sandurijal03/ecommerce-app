@@ -249,3 +249,24 @@ exports.photo = (req, res, next) => {
   }
   next();
 };
+
+exports.listSearch = (req, res) => {
+  // create query object to hold searchc vlaue and category vaalue
+  const query = {};
+  if (req.query.search) {
+    query.name = { $regex: req.query.search, $options: 'i' };
+    // assign category value to query.category
+    if (req.query.category && req.query.category !== 'All') {
+      query.category = req.query.category;
+    }
+    // find the producct based on qury object with two properties
+    Product.find(query, (err, product) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(product);
+    }).select('-photo');
+  }
+};
