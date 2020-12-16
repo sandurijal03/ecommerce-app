@@ -6,6 +6,7 @@ import AdminRoute from './auth/AdminRoutes';
 import PrivateRoute from './auth/PrivateRoute';
 import Home from './core/Home';
 import Menu from './core/Menu';
+import Shop from './core/Shop';
 import AdminDashboard from './user/AdminDashboard';
 import Signin from './user/Signin';
 import Signup from './user/Signup';
@@ -16,6 +17,7 @@ const Routes = () => (
     <Menu />
     <Switch>
       <Route path='/' exact component={Home} />
+      <Route path='/shop' exact component={Shop} />
       <Route path='/signin' exact component={Signin} />
       <Route path='/signup' exact component={Signup} />
       <PrivateRoute exact path='/user/dashboard' component={Dashboard} />
