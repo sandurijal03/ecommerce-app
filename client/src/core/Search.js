@@ -51,9 +51,13 @@ const Search = () => {
   };
 
   const searchMessage = (searched, results) => {
-    return searched && results.length > 0
-      ? `Found ${results.length} products`
-      : 'No products found';
+    if (searched && results.length > 0) {
+      return `Found ${results.length} products`;
+    }
+
+    if (searched && results.length < 1) {
+      return 'No products found';
+    }
   };
 
   const searchedProducts = (results = []) => (
